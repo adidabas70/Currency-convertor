@@ -35,9 +35,14 @@ const updateExchangeRate = async () => {
   const URL = `https://open.er-api.com/v6/latest/${fromCurr.value}`;
   let response = await fetch(URL);
   let data = await response.json();
-  let rate = data.rates[toCurr.value];
+  const rate = data.rates[toCurr.value];
 
-  let finalAmount = amtVal * rate;
+if (rate === undefined) {
+    msg.innerText = `${fromCurr.value} to ${toCurr.value} rate is not available`;
+    return;
+}
+
+const finalAmount = amtVal * rate;
   msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount} ${toCurr.value}`;
 };
 
